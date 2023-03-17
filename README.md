@@ -8,6 +8,7 @@
 - Redux
 - TypeScript
 - Vite
+- Tailwind CSS
 
 ### Backend
 - Node.js
