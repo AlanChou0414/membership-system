@@ -13,5 +13,6 @@
 ### Backend
 - Node.js
 - Express
-- JWT
 - MongoDB
+- JWT
+- RESTful API
