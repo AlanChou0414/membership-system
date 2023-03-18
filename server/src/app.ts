@@ -1,6 +1,15 @@
 import express from 'express'
-import { connectDB } from './connectDB/connectDB'
+import middleware from './middleware'
+import { connectDB } from './connect/connectDB'
+
+// router
+import userRouter from './routes/userRoute'
 
 const app = express()
 
-app.listen(connectDB, () => console.log('Server is working!'))
+connectDB()
+
+app.use(middleware)
+app.use('/user', userRouter)
+
+export default app
