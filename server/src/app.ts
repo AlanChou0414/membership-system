@@ -10,6 +10,6 @@ const app = express()
 connectDB()
 
 app.use(middleware)
-app.use('/user', userRouter)
+app.use('/api', userRouter)
 
 export default app
