@@ -1,14 +1,14 @@
-import { Route, Routes } from "react-router-dom"
+import { Navigate, Outlet, } from "react-router-dom"
 
-// pages
-import Center from "../pages/User/Center/Center"
+// types
+import { AuthType } from "../types/AuthType"
+
+// auth
+const auth: AuthType = { 'token': false }
 
 const PrivateRoutes = () => {
   return (
-    <Routes>
-      <Route path='/center' element={<Center />} />
-    </Routes>
+    auth.token ? <Outlet /> : <Navigate to='/login' />
   )
 }
-
 export default PrivateRoutes

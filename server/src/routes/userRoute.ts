@@ -12,6 +12,7 @@ import {
 const router = express.Router()
 
 //http://localhost:3302/api/users
+//https://membership-system.herokuapp.com/api/users
 router.get('/users', handleGetUsers)
 
 //http://localhost:3302/api/user/:id
