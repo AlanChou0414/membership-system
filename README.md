@@ -14,5 +14,6 @@
 - Node.js
 - Express
 - MongoDB
+- heroku
 - JWT
 - RESTful API
