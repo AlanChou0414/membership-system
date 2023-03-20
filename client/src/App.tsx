@@ -3,9 +3,8 @@ import { BrowserRouter, Route, Routes, } from "react-router-dom"
 // layout
 import MainLayout from "./layouts/Main/MainLayout"
 
-// routes
-// import PrivateRoutes from "./routes/PrivateRoutes"
-// import PublicRoutes from "./routes/PublicRoutes"
+// private
+import PrivateRoutes from "./routes/PrivateRoutes"
 
 // pages
 import Home from "./pages/Home/Home"
@@ -22,7 +21,9 @@ const App = () => {
           <Route index element={<Home />} />
           <Route path='/Login' element={<Login />} />
           <Route path='/SignUp' element={<SignUp />} />
-          <Route path='/center' element={<Center />} />
+          <Route element={<PrivateRoutes />}>
+            <Route path='/center' element={<Center />} />
+          </Route>
         </Route>
       </Routes>
     </BrowserRouter>
