@@ -7,10 +7,10 @@ import MainLayout from "./layouts/Main/MainLayout"
 import PrivateRoutes from "./routes/PrivateRoutes"
 
 // pages
-import Home from "./pages/Home/Home"
-import Login from "./pages/User/Login/Login"
-import SignUp from "./pages/User/SignUp/SignUp"
-import Center from "./pages/User/Center/Center"
+import Home from "./pages/Home"
+import Login from "./pages/User/Login"
+import SignUp from "./pages/User/SignUp"
+import Center from "./pages/User/Center"
 
 const App = () => {
 
