@@ -8,7 +8,7 @@ import PrivateRoutes from "./routes/PrivateRoutes"
 
 // pages
 import Home from "./pages/Home"
-import Login from "./pages/User/Login"
+import SignIn from "./pages/User/SignIn"
 import SignUp from "./pages/User/SignUp"
 import Center from "./pages/User/Center"
 
@@ -19,8 +19,8 @@ const App = () => {
       <Routes>
         <Route path='/' element={<MainLayout />}>
           <Route index element={<Home />} />
-          <Route path='/Login' element={<Login />} />
-          <Route path='/SignUp' element={<SignUp />} />
+          <Route path='/Signin' element={<SignIn />} />
+          <Route path='/Signup' element={<SignUp />} />
           <Route element={<PrivateRoutes />}>
             <Route path='/center' element={<Center />} />
           </Route>
