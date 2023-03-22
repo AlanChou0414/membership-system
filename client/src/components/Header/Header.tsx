@@ -1,4 +1,7 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
+
+// icons
+import { FaUserCircle } from "react-icons/fa"
 
 // types
 import { MenuOptionType } from '../../types/HeaderType'
@@ -7,11 +10,11 @@ import { MenuOptionType } from '../../types/HeaderType'
 const MenuOption: MenuOptionType = {
   options: [
     {
-      title: '登入／註冊',
+      title: 'Sign in / Sign up',
       link: '/login'
     },
     {
-      title: '會員中心',
+      title: 'Center',
       link: '/center'
     },
   ]
@@ -20,21 +23,24 @@ const MenuOption: MenuOptionType = {
 const Header = () => {
   return (
     <header className='bg-dark h-20 sticky flex items-center text-light'>
-      <div className='container flex mx-auto max-w-screen-xxl items-center justify-between'>
-        <Link to='/'>
-          <h1 className='text-4xl'>會員管理系統</h1>
-        </Link>
+      <div className='container flex mx-auto max-w-screen-xl items-center justify-between'>
+        <NavLink to='/'>
+          <h1 className='text-3xl'>Membership System</h1>
+        </NavLink>
         <ul>
+          <NavLink to='/signin'>
+            <FaUserCircle size={35} />
+          </NavLink>
           {
-            MenuOption.options.map(option => (
-              <Link
-                key={option.title}
-                className='text-xl mr-2 ml-2 p-5'
-                to={option.link}
-              >
-                {option.title}
-              </Link>
-            ))
+            // MenuOption.options.map(option => (
+            //   <NavLink
+            //     key={option.title}
+            //     className='text-ml mr-1 ml-1 p-2'
+            //     to={option.link}
+            //   >
+            //     {option.title}
+            //   </NavLink>
+            // ))
           }
         </ul>
       </div>
