@@ -1,4 +1,4 @@
-
+import { Link } from "react-router-dom"
 
 type Props = {}
 
@@ -15,6 +15,7 @@ const SignIn = (props: Props) => {
           <input
             className='border cursor-pointer mt-5 p-2 hover:bg-black hover:text-white transition duration-500'
             type="submit" value="SEND" />
+          <Link className='text-xl mt-3 text-blue-400 text-center' to='/Signup'>Sign Up?</Link>
         </form>
       </div>
     </section>
