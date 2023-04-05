@@ -1,5 +1,7 @@
 export interface SignInType {
-  name: string
-  email: string
-  token: boolean
+  user: {
+    name: string
+    email: string
+    token: boolean
+  }
 }
