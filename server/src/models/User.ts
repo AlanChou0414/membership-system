@@ -4,6 +4,10 @@ import mongoose, { Schema, Document, Model } from "mongoose"
 import jwt from 'jsonwebtoken'
 import bcrypt from 'bcrypt'
 import dayjs from 'dayjs'
+import dotenv from 'dotenv'
+
+dotenv.config()
+const SECRET = process.env.SECRET_KEY
 
 //type
 interface IUser extends Document {
@@ -61,7 +65,7 @@ userSchema.pre<IUser>('save', async function (next) {
 
 // build token of create user or user login
 userSchema.methods.generateAuthToken = async function () {
-  const token = jwt.sign({ _id: this._id.toString() }, 'mysecretkey')
+  const token = jwt.sign({ _id: this._id.toString() }, SECRET!, { expiresIn: '10 m' })
   const updated_at = dayjs().format('YYYY-MM-DD hh:mm:ss')
   this.tokens = this.tokens.concat({ token, updated_at })
   await this.save()
