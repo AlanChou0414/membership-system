@@ -7,6 +7,7 @@ import userRouter from './routes/userRoute'
 
 const app = express()
 
+// databases
 connectDB()
 
 app.use(middleware)

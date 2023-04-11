@@ -6,7 +6,8 @@ import {
   handleGetUsers,
   handleGetUser,
   handleUpdateUser,
-  handleDeleteUser
+  handleDeleteUser,
+  handleUserLogin
 } from '../controllers/userController'
 
 const router = express.Router()
@@ -16,15 +17,18 @@ const router = express.Router()
 router.get('/users', handleGetUsers)
 
 //http://localhost:3302/api/user/:id
-router.get('/user/{id}', handleGetUser)
+router.get('/user/:id', handleGetUser)
+
+//http://localhost:3302/api/user/login
+router.post('/user/login', handleUserLogin)
 
 //http://localhost:3302/api/new
 router.post('/new', handleCreateUser)
 
 //http://localhost:3302/api/user/update/:id
-router.put('/user/update/{id}', handleUpdateUser)
+router.put('/user/update/:id', handleUpdateUser)
 
 //http://localhost:3302/api/user/delete/:id
-router.delete('/user/delete/{id}', handleDeleteUser)
+router.delete('/user/delete/:id', handleDeleteUser)
 
 export default router
