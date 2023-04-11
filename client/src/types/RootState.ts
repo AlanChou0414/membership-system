@@ -1,14 +1,13 @@
 export interface RootState {
-  user: {
-    signin: {
-      userEmail: string,
-      userPassword: string
-    },
-    signup: {
-      userName: string,
-      userEmail: string,
-      userPassword: string
-    }
+  User: {
+    id: string
+    userName: string
+    userEmail: string
   }
-  token: string
+  SignIn: {
+    userEmail: string,
+    userPassword: string
+  }
+  Token: string
+  Alert: string
 }
