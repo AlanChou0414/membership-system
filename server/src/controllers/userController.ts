@@ -1,23 +1,15 @@
-import { Request, Response, NextFunction } from "express"
-
-// type
-import { UserType } from "../types/userType"
-interface ApiFn {
-  req: Request
-  res: Response
-  next: NextFunction
-}
-
-// tools
-import bcrypt from 'bcrypt'
-import uuid from 'uuid'
+import { Response, NextFunction, Request } from "express"
 
 // Schema
 import User from "../models/User"
 
+// tools
+import bcrypt from 'bcrypt'
 
 // get users
-export const handleGetUsers = async ({ req, res, next }: ApiFn): Promise<void> => {
+export const handleGetUsers = async (
+  req: Request, res: Response, next: NextFunction
+): Promise<void> => {
   try {
     const users = await User.find()
     res.status(200).json({ data: users, message: 'success!' })
@@ -29,12 +21,12 @@ export const handleGetUsers = async ({ req, res, next }: ApiFn): Promise<void> =
 }
 
 // get user:id
-export const handleGetUser = async ({ req, res, next }: ApiFn): Promise<void> => {
-  const { userId } = req.body
+export const handleGetUser = async (
+  req: Request, res: Response, next: NextFunction
+): Promise<void> => {
+  const userId = req.params.id
   try {
-    const user = await User.find({
-      _id: userId
-    })
+    const user = await User.findOne({ _id: userId })
     res.status(200).json({ data: user, message: 'success!' })
   }
   catch (error) {
@@ -43,27 +35,55 @@ export const handleGetUser = async ({ req, res, next }: ApiFn): Promise<void> =>
   }
 }
 
-// create user
-export const handleCreateUser = async ({ req, res, next }: ApiFn): Promise<void> => {
-  const { userName, userEmail, userPassword } = req.body
+// login
+export const handleUserLogin = async (
+  req: Request, res: Response, next: NextFunction
+): Promise<void> => {
+  const { userEmail, userPassword } = req.body
   try {
-    const user = new User({
-      userName,
-      userEmail,
-      userPassword: bcrypt.hash(userPassword, 10)
-    })
-    await user.save()
-    res.status(200).json({ message: 'success!' })
+    const user = await User.findOne({ userEmail })
+    if (!user) {
+      throw new Error('User not found');
+    }
+    const isMatch = await bcrypt.compare(userPassword, user.userPassword)
+    if (!isMatch) {
+      throw new Error('Invalid login credentials')
+    }
+    const token = await user.generateAuthToken()
+    res.status(200).json({ data: user, message: 'success!', token })
   }
   catch (error) {
-    res.status(500).json({ message: error })
+    res.status(500).json({ message: error instanceof Error ? error.message : error })
     next(error)
   }
 }
 
+// signup user
+export const handleCreateUser = async (
+  req: Request, res: Response, next: NextFunction
+): Promise<void> => {
+  const { userEmail } = req.body
+  try {
+    const check = await User.findOne({ userEmail })
+    if (check) {
+      throw new Error('The user has registered!')
+    }
+    const user = await new User(req.body)
+    await user.save()
+    //use User schema methods (generateAuthToken())
+    const token = await user.generateAuthToken()
+    res.status(200).json({ token, message: 'success!' })
+  }
+  catch (error) {
+    res.status(500).json({ message: error instanceof Error ? error.message : error })
+    next(error)
+  }
+}
 
-// update user
-export const handleUpdateUser = async ({ req, res, next }: ApiFn): Promise<void> => {
+// update user TODO:
+export const handleUpdateUser = async (
+  req: Request, res: Response, next: NextFunction
+): Promise<void> => {
   const { userName, userEmail, userPassword, refreshToken } = req.body
   try {
     const updateUser = await User.updateOne(
@@ -79,12 +99,13 @@ export const handleUpdateUser = async ({ req, res, next }: ApiFn): Promise<void>
   }
 }
 
-
-// delete user
-export const handleDeleteUser = async ({ req, res, next }: ApiFn): Promise<void> => {
-  const { userId } = req.body
+// delete user TODO:
+export const handleDeleteUser = async (
+  req: Request, res: Response, next: NextFunction
+): Promise<void> => {
+  const userId = req.params.id
   try {
-    const deleteUser = await User.deleteOne({ userId })
+    await User.deleteOne({ _id: userId })
     res.status(200).json({ message: 'success!' })
   }
   catch (error) {
@@ -92,5 +113,3 @@ export const handleDeleteUser = async ({ req, res, next }: ApiFn): Promise<void>
     next(error)
   }
 }
-
-
