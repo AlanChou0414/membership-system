@@ -1,33 +1,31 @@
-import { useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { setToken } from "../../../slice/Auth/AuthSlice"
 import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import Cookies from 'js-cookie'
 
+//reducer
+import { setToken } from "../../../slice/Auth/AuthSlice"
+import { setField } from "../../../slice/SignIn/SignInSlice"
+import { setUserData } from "../../../slice/User/UserSlice"
+import { setAlert } from "../../../slice/Alert/AlertSlice"
+
 //types
-import { FormDataType } from "../../../types/FormDataType"
+import { RootState } from "../../../types/RootState"
 
 const SignIn = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  
-  const [formData, setFormData] = useState<FormDataType>({
-    userEmail: '',
-    userPassword: ''
-  })
-  const [alert, setAlert] = useState('')
+  const { userEmail, userPassword } = useSelector((state: RootState) => state.SignIn)
+  const alertMessage = useSelector((state: RootState) => state.Alert)
 
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => (
-    setFormData({
-      ...formData,
-      [event.target.name]: event.target.value
-    })
-  )
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target
+    dispatch(setField({ name, value }))
+  }
 
+  // signin
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault()
-    const { userEmail, userPassword } = formData
     try {
       const response = await axios.post(`${import.meta.env.VITE_VAR_API_URL}/user/login`, {
         userEmail,
@@ -36,12 +34,17 @@ const SignIn = () => {
       const { data } = response
       if (data) {
         dispatch(setToken(data.token))
+        dispatch(setUserData({
+          id: data.data._id,
+          userName: data.data.userName,
+          userEmail: data.data.userEmail
+        }))
         Cookies.set('token', data.token, {
           expires: 7,
           // secure: true,
           // httpOnly: true
         })
-        setAlert(data.message)
+        dispatch(setAlert(data.message))
         setTimeout(() => {
           navigate('/')
           setAlert('')
@@ -50,7 +53,7 @@ const SignIn = () => {
     }
     catch (error: any) {
       if (error.message) {
-        setAlert(error.response.data.message)
+        dispatch(setAlert(error.response.data.message))
         setTimeout(() => {
           setAlert('')
         }, 2000);
@@ -69,7 +72,7 @@ const SignIn = () => {
             type="email"
             name="userEmail"
             id="userEmail"
-            value={formData?.userEmail}
+            value={userEmail}
             onChange={handleInputChange}
           />
           <label className='mt-3' htmlFor="password">Password : </label>
@@ -78,7 +81,7 @@ const SignIn = () => {
             type="password"
             name="userPassword"
             id="userPassword"
-            value={formData?.userPassword}
+            value={userPassword}
             onChange={handleInputChange}
           />
           <input
@@ -86,8 +89,8 @@ const SignIn = () => {
             type="submit" value="SEND" />
           <Link className='text-xl mt-3 text-blue-400 text-center' to='/Signup'>Sign Up?</Link>
           {
-            alert &&
-            <div className='text-xl mt-3 text-red-400 text-center'>{alert}</div>
+            alertMessage &&
+            <div className='text-xl mt-3 text-red-400 text-center'>{alertMessage}</div>
           }
         </form>
       </div>
