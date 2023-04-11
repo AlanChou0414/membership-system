@@ -1,6 +1,7 @@
 import { useState } from "react"
+import { useSelector, useDispatch } from "react-redux"
+import { setToken } from "../../../slice/Auth/AuthSlice"
 import { Link, useNavigate } from "react-router-dom"
-import { useSelector } from "react-redux"
 import axios from "axios"
 import Cookies from 'js-cookie'
 
@@ -9,6 +10,8 @@ import { FormDataType } from "../../../types/FormDataType"
 
 const SignIn = () => {
   const navigate = useNavigate()
+  const dispatch = useDispatch()
+  
   const [formData, setFormData] = useState<FormDataType>({
     userEmail: '',
     userPassword: ''
@@ -32,6 +35,7 @@ const SignIn = () => {
       })
       const { data } = response
       if (data) {
+        dispatch(setToken(data.token))
         Cookies.set('token', data.token, {
           expires: 7,
           // secure: true,

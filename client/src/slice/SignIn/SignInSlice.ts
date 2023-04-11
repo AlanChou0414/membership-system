@@ -1,24 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { SignInType } from "./SignInType"
 
-const initialState: SignInType = {
-  user: {
-    name: '',
-    email: '',
-    token: false
-  }
+const initialState = {
+  userEmail: '',
+  userPassword: ''
 }
 
 export const SignInSlice = createSlice({
   name: 'SignIn',
   initialState,
   reducers: {
-    setSignIn(state, action) {
-
+    setEmail(state, action) {
+      state.userEmail = action.payload
+    },
+    setPassword(state, action) {
+      state.userPassword = action.payload
     }
   }
 })
 
-export const { setSignIn } = SignInSlice.actions
+export const { setEmail, setPassword } = SignInSlice.actions
 
 export default SignInSlice.reducer
