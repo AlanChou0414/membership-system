@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux"
 import { useNavigate } from "react-router-dom"
 import jwtDecode from "jwt-decode"
-import { useEffect } from "react"
+import useSWR from 'swr'
 import axios from "axios"
 import Cookies from "js-cookie"
 
@@ -20,17 +20,22 @@ const Home = () => {
   const alertMessage = useSelector((state: RootState) => state.Alert)
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const token = Cookies.get('token')
+  const decoded: DecodedToken = jwtDecode(token!) as DecodedToken
 
-  useEffect(() => {
-    const token = Cookies.get('token')
-    const decoded: DecodedToken = jwtDecode(token!) as DecodedToken
-    const getUserData = async () => {
-      const response = await axios.get(`${import.meta.env.VITE_VAR_API_URL}/user/${decoded!._id}`)
-      const { data } = response
-      dispatch(setUserData(data.data))
+  const { data, error } = useSWR(
+    `${import.meta.env.VITE_VAR_API_URL}/user/${decoded!._id}`,
+    async url => {
+      try {
+        const response = await axios.get(url)
+        const { data } = response
+        dispatch(setUserData(data.data))
+        return data
+      } catch (error) {
+        console.log(error)
+      }
     }
-    getUserData()
-  }, [])
+  )
 
   const handleUserLogout = () => {
     Cookies.remove('token')
@@ -40,6 +45,9 @@ const Home = () => {
       dispatch(setAlert(''))
     }, 1000);
   }
+
+  if (!data) return <div>Loading...</div>
+  if (error) return <div>Api Error</div>
 
   return (
     <section className='flex justify-center items-center m-40'>
