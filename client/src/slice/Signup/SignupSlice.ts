@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit"
 
-export const SignupSlice = createSlice({
+const SignupSlice = createSlice({
   name: 'Signup',
   initialState: {
     userName: '',
@@ -8,6 +8,15 @@ export const SignupSlice = createSlice({
     userPassword: ''
   },
   reducers: {
-
+    setSignupInput(state, action) {
+      const { name, value } = action.payload
+      return {
+        ...state,
+        [name]: value
+      }
+    }
   }
 })
+
+export const { setSignupInput } = SignupSlice.actions
+export default SignupSlice.reducer

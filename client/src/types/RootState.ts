@@ -8,6 +8,11 @@ export interface RootState {
     userEmail: string,
     userPassword: string
   }
+  Signup: {
+    userName: string
+    userEmail: string
+    userPassword: string
+  }
   Token: string
   Alert: string
 }

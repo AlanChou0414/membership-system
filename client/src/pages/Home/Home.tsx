@@ -1,4 +1,5 @@
 import { useSelector } from "react-redux"
+import { useEffect } from "react"
 
 //type
 import { RootState } from "../../types/RootState"
@@ -13,6 +14,9 @@ const Home = () => {
         <div className='flex flex-col mt-10  w-64'>
           <div>Name : {userName}</div>
           <div>Email : {userEmail}</div>
+          <input
+            className='border cursor-pointer mt-5 p-2 hover:bg-black hover:text-white transition duration-500 rounded-lg'
+            type="button" value="Logout" />
         </div>
       </div>
     </section>

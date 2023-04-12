@@ -1,5 +1,4 @@
 import Cookies from "js-cookie"
-import jwt from 'jsonwebtoken'
 import jwtDecode from "jwt-decode"
 import { Navigate, Outlet, } from "react-router-dom"
 
