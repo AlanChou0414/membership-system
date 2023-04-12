@@ -27,6 +27,6 @@
     "uuid": "^9.0.0"
   },
   "scripts": {
-    "start": "tsc -w & nodemon ./dist/js"
+    "dev": "tsc -w & nodemon ./dist/js"
   }
 }
