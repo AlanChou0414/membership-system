@@ -25,9 +25,10 @@ router.post('/user/login', handleUserLogin)
 //http://localhost:3302/api/new
 router.post('/new', handleCreateUser)
 
+//TODO:
 //http://localhost:3302/api/user/update/:id
 router.put('/user/update/:id', handleUpdateUser)
-
+//TODO:
 //http://localhost:3302/api/user/delete/:id
 router.delete('/user/delete/:id', handleDeleteUser)
 

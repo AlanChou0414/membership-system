@@ -68,7 +68,7 @@ export const handleCreateUser = async (
     if (check) {
       throw new Error('The user has registered!')
     }
-    const user = await new User(req.body)
+    const user = new User(req.body)
     await user.save()
     //use User schema methods (generateAuthToken())
     const token = await user.generateAuthToken()

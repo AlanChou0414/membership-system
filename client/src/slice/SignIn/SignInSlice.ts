@@ -18,5 +18,4 @@ export const SignInSlice = createSlice({
 })
 
 export const { setField } = SignInSlice.actions
-
 export default SignInSlice.reducer
