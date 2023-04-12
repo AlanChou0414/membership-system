@@ -47,6 +47,7 @@ const SignIn = () => {
         dispatch(setAlert(data.message))
         setTimeout(() => {
           navigate('/')
+          dispatch(setAlert(''))
         }, 1000);
       }
     }
@@ -54,6 +55,7 @@ const SignIn = () => {
       if (error.message) {
         dispatch(setAlert(error.response.data.message))
         setTimeout(() => {
+          dispatch(setAlert(''))
         }, 2000);
       }
     }
