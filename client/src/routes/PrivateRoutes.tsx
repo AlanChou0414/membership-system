@@ -1,9 +1,16 @@
 import Cookies from "js-cookie"
+import jwt from 'jsonwebtoken'
+import jwtDecode from "jwt-decode"
 import { Navigate, Outlet, } from "react-router-dom"
 
 const PrivateRoutes = () => {
+  const token = Cookies.get('token')
+  if (token) {
+    const decoded = jwtDecode(token)
+    console.log(decoded)
+  }
   return (
-    Cookies.get('token') ? <Outlet /> : <Navigate to='/signin' />
+    token ? <Outlet /> : <Navigate to='/signin' />
   )
 }
 export default PrivateRoutes
