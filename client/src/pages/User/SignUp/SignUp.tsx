@@ -8,15 +8,15 @@ import { setSignupInput } from "../../../slice/Signup/SignupSlice"
 import { setAlert } from "../../../slice/Alert/AlertSlice"
 
 //type
-import { RootState } from "../../../types/RootState"
+import { RootType } from "../../../store/configureStore"
 
 const SignUp = () => {
   const {
     userName,
     userEmail,
     userPassword
-  } = useSelector((state: RootState) => state.Signup)
-  const alertMessage = useSelector((state: RootState) => state.Alert)
+  } = useSelector((state: RootType) => state.Signup)
+  const alertMessage = useSelector((state: RootType) => state.Alert)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 

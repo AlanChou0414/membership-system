@@ -3,24 +3,27 @@ import { Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 import Cookies from 'js-cookie'
 
-//reducer
+//reducers
 import { setToken } from "../../../slice/Auth/AuthSlice"
 import { setField } from "../../../slice/SignIn/SignInSlice"
 import { setUserData } from "../../../slice/User/UserSlice"
 import { setAlert } from "../../../slice/Alert/AlertSlice"
 
+import { setAllFormInput } from "../../../slice/Form/FormSlice"
+
 //types
-import { RootState } from "../../../types/RootState"
+import { RootType } from "../../../store/configureStore"
 
 const SignIn = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const { userEmail, userPassword } = useSelector((state: RootState) => state.SignIn)
-  const alertMessage = useSelector((state: RootState) => state.Alert)
+  const { userEmail, userPassword } = useSelector((state: RootType) => state.SignIn)
+  const inputs = useSelector((state: RootType) => state.Form)
+  const alertMessage = useSelector((state: RootType) => state.Alert)
 
   const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target
-    dispatch(setField({ name, value }))
+    dispatch(setAllFormInput({ name, value }))
   }
 
   // signin
@@ -72,7 +75,6 @@ const SignIn = () => {
             type="email"
             name="userEmail"
             id="userEmail"
-            value={userEmail}
             onChange={handleInputChange}
           />
           <label className='mt-3' htmlFor="password">Password : </label>
@@ -81,7 +83,6 @@ const SignIn = () => {
             type="password"
             name="userPassword"
             id="userPassword"
-            value={userPassword}
             onChange={handleInputChange}
           />
           <input

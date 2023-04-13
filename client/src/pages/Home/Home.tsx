@@ -6,7 +6,7 @@ import axios from "axios"
 import Cookies from "js-cookie"
 
 //type
-import { RootState } from "../../types/RootState"
+import { RootType } from "../../store/configureStore"
 interface DecodedToken {
   _id: string
 }
@@ -16,8 +16,8 @@ import { setUserData } from "../../slice/User/UserSlice"
 import { setAlert } from "../../slice/Alert/AlertSlice"
 
 const Home = () => {
-  const { userName, userEmail } = useSelector((state: RootState) => state.User)
-  const alertMessage = useSelector((state: RootState) => state.Alert)
+  const { userName, userEmail } = useSelector((state: RootType) => state.User)
+  const alertMessage = useSelector((state: RootType) => state.Alert)
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const token = Cookies.get('token')
